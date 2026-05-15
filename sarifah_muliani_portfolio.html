@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarifah Muliani — AI Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0b;
+    --surface: #111113;
+    --surface2: #18181c;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --gold: #c9a96e;
+    --gold2: #e8c98a;
+    --text: #e8e6e1;
+    --muted: #888580;
+    --accent: #8b7355;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,11,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 3rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 60%;
+    height: 140%;
+    background: radial-gradient(ellipse at center, rgba(201,169,110,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-text { z-index: 1; }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.3rem;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .hero-desc {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.9;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: #0a0a0b;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold2);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid rgba(201,169,110,0.4);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    background: rgba(201,169,110,0.05);
+  }
+
+  .hero-image-wrap {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .hero-image-frame {
+    position: relative;
+    width: 380px;
+    height: 500px;
+  }
+
+  .hero-image-frame::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(201,169,110,0.25);
+  }
+
+  .hero-image-frame::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: -12px;
+    width: 40%;
+    height: 40%;
+    border-left: 1px solid rgba(201,169,110,0.4);
+    border-bottom: 1px solid rgba(201,169,110,0.4);
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: grayscale(20%) contrast(1.05);
+  }
+
+  .hero-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(10,10,11,0.3) 100%);
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 6rem 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    opacity: 0.8;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    line-height: 2;
+    margin-bottom: 1.5rem;
+    font-size: 12px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .stat-box {
+    background: var(--surface);
+    padding: 2rem;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* EXPERIENCE */
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    left: 178px;
+    top: 2.5rem;
+    bottom: 0;
+    width: 1px;
+    background: var(--border2);
+  }
+
+  .exp-meta {
+    padding-right: 2rem;
+  }
+
+  .exp-date {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-company {
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .exp-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .exp-desc {
+    color: var(--muted);
+    font-size: 11.5px;
+    line-height: 1.9;
+  }
+
+  .exp-tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    background: rgba(201,169,110,0.08);
+    border: 1px solid rgba(201,169,110,0.2);
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    margin-top: 1rem;
+    margin-right: 0.4rem;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .project-card {
+    background: var(--surface);
+    padding: 2rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover { background: var(--surface2); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: rgba(201,169,110,0.1);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .stack-tag {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border2);
+    padding: 0.15rem 0.5rem;
+  }
+
+  /* SKILLS */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+
+  .skill-group-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-name {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+
+  .skill-bar {
+    width: 80px;
+    height: 1px;
+    background: var(--border2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--gold);
+  }
+
+  /* CONTACT */
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .contact-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-tagline em { font-style: italic; color: var(--gold); }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 12px;
+    transition: color 0.3s;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+  }
+
+  .contact-link:hover {
+    color: var(--text);
+    border-color: rgba(201,169,110,0.3);
+  }
+
+  .contact-link-icon {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .contact-link-text { flex: 1; }
+  .contact-link-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
+  .contact-link-val { color: var(--text); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .footer-badge {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .hero-eyebrow { animation: fadeIn 0.8s ease 0.2s both; }
+  .hero-name { animation: fadeUp 0.8s ease 0.4s both; }
+  .hero-title { animation: fadeUp 0.8s ease 0.5s both; }
+  .hero-desc { animation: fadeUp 0.8s ease 0.6s both; }
+  .hero-cta { animation: fadeUp 0.8s ease 0.7s both; }
+  .hero-image-frame { animation: fadeIn 1s ease 0.5s both; }
+
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .scroll-reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* DECORATIVE LINE */
+  .deco-line {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .deco-line::before, .deco-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border2);
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; min-height: auto; }
+    .hero-image-wrap { justify-content: center; }
+    .hero-image-frame { width: 280px; height: 370px; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-layout { grid-template-columns: 1fr; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .exp-item::before { display: none; }
+    footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SM</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home" style="border-top:none;">
+  <div class="hero-text">
+    <div class="hero-eyebrow">AI Engineer & Data Analyst</div>
+    <h1 class="hero-name">Sarifah<br><em>Muliani</em></h1>
+    <p class="hero-title">Informatics Engineer · UIN Suska Riau · Class of 2025</p>
+    <p class="hero-desc">
+      Building intelligent systems where data meets design. Specializing in conversational AI, deep learning, and end-to-end deployment — from chatbots that understand context to models that explain themselves.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:sarifamulyani2@gmail.com" class="btn btn-primary">Get in Touch</a>
+      <a href="https://github.com/SarifahMuliani" target="_blank" class="btn btn-outline">View GitHub</a>
+    </div>
+  </div>
+
+  <div class="hero-image-wrap">
+    <div class="hero-image-frame">
+      <img class="hero-img" src="/mnt/user-data/uploads/WhatsApp_Image_2026-05-01_at_22_36_30.jpeg" alt="Sarifah Muliani — graduation photo" onerror="this.style.display='none'; this.parentElement.style.background='#18181c';">
+      <div class="hero-img-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header scroll-reveal">
+    <span class="section-label">001</span>
+    <h2 class="section-title">About <em>Me</em></h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text scroll-reveal">
+      <p>
+        Fresh graduate in Informatics Engineering from UIN Suska Riau with a GPA of 3.32, passionate about the intersection of artificial intelligence and real-world impact. My thesis explored applying SHAP explainability to deep learning models for lung disease detection — because AI should be trustworthy, not just accurate.
+      </p>
+      <p>
+        Currently working as an AI & Data Analyst Intern at PT. Digital Sawit Pro, where I built and deployed "Sawit Doctor" — an agronomist chatbot achieving a Faithfulness score of 0.94 on RAG evaluation, integrated across Telegram, WhatsApp, and Lark.
+      </p>
+      <p>
+        I believe the best technology feels invisible: seamlessly helpful, elegantly built, and deeply human.
+      </p>
+    </div>
+
+    <div class="stats-grid scroll-reveal">
+      <div class="stat-box">
+        <div class="stat-num">96%</div>
+        <div class="stat-label">Thesis model accuracy</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">0.94</div>
+        <div class="stat-label">RAG faithfulness score</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3K+</div>
+        <div class="stat-label">X-ray images processed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Platforms deployed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header scroll-reveal">
+    <span class="section-label">002</span>
+    <h2 class="section-title">Work <em>Experience</em></h2>
+  </div>
+
+  <div class="exp-list">
+    <div class="exp-item scroll-reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Jan 2026 — Present</div>
+        <div class="exp-company">PT. Digital Sawit Pro</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">AI & Data Analyst Intern</div>
+        <div class="exp-desc">
+          Built and deployed the "Sawit Doctor" agronomist chatbot covering disease, pest, harvest, and fertilization consultations — integrated on Telegram, WhatsApp, and Lark via end-to-end Dify/Docker workflows. Achieved RAG Faithfulness of 0.94 and Context Recall of 0.88. Also performed data labeling for computer vision datasets using LabelMe.
+        </div>
+        <div>
+          <span class="exp-tag">Dify</span>
+          <span class="exp-tag">Docker</span>
+          <span class="exp-tag">RAG</span>
+          <span class="exp-tag">LabelMe</span>
+          <span class="exp-tag">Conversational AI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item scroll-reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Dec 2025 — Jan 2026</div>
+        <div class="exp-company">Ruangguru</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Sales Trainee</div>
+        <div class="exp-desc">
+          Promoted SkillAcademy & Ruangguru products via direct and digital outreach, converting 2 clients within one month in a fast-paced, target-driven environment.
+        </div>
+        <div>
+          <span class="exp-tag">EdTech</span>
+          <span class="exp-tag">Customer Engagement</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item scroll-reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Oct — Dec 2025</div>
+        <div class="exp-company">Perum Bulog</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Data Entry</div>
+        <div class="exp-desc">
+          Digitized and validated ~700 rice aid recipient records per day across multiple villages in Kampar Regency, ensuring high data integrity and accuracy under high-throughput input conditions.
+        </div>
+        <div>
+          <span class="exp-tag">Data Integrity</span>
+          <span class="exp-tag">High Throughput</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header scroll-reveal">
+    <span class="section-label">003</span>
+    <h2 class="section-title">Selected <em>Projects</em></h2>
+  </div>
+
+  <div class="projects-grid">
+    <div class="project-card scroll-reveal">
+      <div class="project-num">01</div>
+      <div class="project-title">Lung Disease Detection with XAI</div>
+      <div class="project-desc">
+        Deep learning classification model using VGG-16 CNN on 3,030 chest X-ray images (COVID-19, Pneumonia, Normal) achieving 96% accuracy. SHAP-based explainability visualizes key image regions influencing predictions.
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">TensorFlow</span>
+        <span class="stack-tag">Keras</span>
+        <span class="stack-tag">SHAP</span>
+        <span class="stack-tag">VGG-16</span>
+        <span class="stack-tag">Deep Learning</span>
+      </div>
+    </div>
+
+    <div class="project-card scroll-reveal">
+      <div class="project-num">02</div>
+      <div class="project-title">Sawit Doctor Chatbot</div>
+      <div class="project-desc">
+        End-to-end agronomist chatbot covering palm oil disease, pest, harvest & fertilization consultations. Deployed across Telegram, WhatsApp & Lark. RAG Faithfulness 0.94, Context Recall 0.88.
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Dify</span>
+        <span class="stack-tag">Docker</span>
+        <span class="stack-tag">RAG</span>
+        <span class="stack-tag">Telegram API</span>
+        <span class="stack-tag">WhatsApp API</span>
+      </div>
+    </div>
+
+    <div class="project-card scroll-reveal">
+      <div class="project-num">03</div>
+      <div class="project-title">Company Profile Website</div>
+      <div class="project-desc">
+        Designed and developed a responsive company profile website for PT. MSI, translating business requirements into a functional, branded frontend experience.
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">HTML</span>
+        <span class="stack-tag">CSS</span>
+        <span class="stack-tag">JavaScript</span>
+        <span class="stack-tag">Responsive Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header scroll-reveal">
+    <span class="section-label">004</span>
+    <h2 class="section-title">Skills & <em>Tools</em></h2>
+  </div>
+
+  <div class="skills-layout">
+    <div class="scroll-reveal">
+      <div class="skill-group-title">Technical</div>
+      <div class="skill-item"><span class="skill-name">Python (Pandas, NumPy)</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">TensorFlow / Keras</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Deep Learning / ML</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">HTML / CSS / JavaScript</span><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Git / GitHub</span><div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div></div>
+    </div>
+
+    <div class="scroll-reveal">
+      <div class="skill-group-title">AI & Chatbot</div>
+      <div class="skill-item"><span class="skill-name">Conversational AI Design</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Dify (No-Code Deployment)</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Knowledge Base Structuring</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">RAG Evaluation</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Docker</span><div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div></div>
+    </div>
+
+    <div class="scroll-reveal">
+      <div class="skill-group-title">Tools & Platforms</div>
+      <div class="skill-item"><span class="skill-name">Google Colab / Jupyter</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">LabelMe</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Figma</span><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Vertex AI</span><div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">VS Code</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+    </div>
+
+    <div class="scroll-reveal">
+      <div class="skill-group-title">Languages</div>
+      <div class="skill-item"><span class="skill-name">Indonesian</span><div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Bahasa Malaysia</span><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">English</span><div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div></div>
+
+      <div class="skill-group-title" style="margin-top:2rem;">Soft Skills</div>
+      <div class="skill-item"><span class="skill-name">Problem Solving</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Attention to Detail</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Fast Learner</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="scroll-reveal">
+      <div class="deco-line">Let's Connect</div>
+      <h2 class="contact-tagline">Open to <em>opportunities</em> & collaborations</h2>
+      <p style="color:var(--muted); font-size:12px; line-height:2; max-width:380px;">
+        Whether it's an exciting AI project, a full-time role, or just a conversation about machine learning and technology — feel free to reach out.
+      </p>
+    </div>
+
+    <div class="contact-links scroll-reveal">
+      <a class="contact-link" href="mailto:sarifamulyani2@gmail.com">
+        <div class="contact-link-icon">✉</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">Email</div>
+          <div class="contact-link-val">sarifamulyani2@gmail.com</div>
+        </div>
+      </a>
+      <a class="contact-link" href="tel:+6282268903541">
+        <div class="contact-link-icon">☏</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">Phone</div>
+          <div class="contact-link-val">0822-6890-3541</div>
+        </div>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/sarifahmuliani/" target="_blank">
+        <div class="contact-link-icon">in</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">LinkedIn</div>
+          <div class="contact-link-val">linkedin.com/in/sarifahmuliani</div>
+        </div>
+      </a>
+      <a class="contact-link" href="https://github.com/SarifahMuliani" target="_blank">
+        <div class="contact-link-icon">gh</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">GitHub</div>
+          <div class="contact-link-val">github.com/SarifahMuliani</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2025 Sarifah Muliani — All rights reserved</div>
+  <div class="footer-badge">Pekanbaru, Indonesia</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
